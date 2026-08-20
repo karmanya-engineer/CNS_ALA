@@ -3,185 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Messaging App</title>
+
+    <title>Secure Messaging App | AES + RSA</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <div class="container">
-
-        <header>
-            <div class="security-icon">🔐</div>
-            <h1>Secure Messaging</h1>
-            <p>AES-256 + RSA-OAEP Hybrid Encryption</p>
-        </header>
-
-        <div class="algorithm-bar">
+    <header class="header">
+        <div class="header-content">
             <div>
-                <span>AES</span>
-                <strong>256-bit</strong>
+                <h1>🔐 Secure Messaging</h1>
+                <p>AES Symmetric Encryption + RSA Asymmetric Encryption</p>
             </div>
 
-            <div class="arrow">+</div>
-
-            <div>
-                <span>RSA</span>
-                <strong>2048-bit</strong>
-            </div>
-
-            <div class="arrow">=</div>
-
-            <div>
-                <span>Security</span>
-                <strong>Hybrid Encryption</strong>
+            <div class="badge">
+                Hybrid Encryption
             </div>
         </div>
+    </header>
 
-        <section class="message-section">
-            <h2>1. Enter Message</h2>
 
-            <textarea id="messageInput"
-                placeholder="Type your confidential message here..."></textarea>
+    <main class="container">
 
-            <button id="encryptBtn" class="primary-btn">
-                🔒 Encrypt Message
-            </button>
+        <!-- Introduction -->
+        <section class="intro-card">
+            <h2>Secure Messaging Demonstration</h2>
+
+            <p>
+                This application demonstrates hybrid encryption.
+                The message is encrypted using AES, while the AES key
+                is secured using RSA.
+            </p>
+
+            <div class="flow">
+
+                <div class="flow-item">
+                    <span>1</span>
+                    <strong>Message</strong>
+                    <small>Plain text</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>2</span>
+                    <strong>AES</strong>
+                    <small>Encrypt message</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>3</span>
+                    <strong>RSA</strong>
+                    <small>Secure AES key</small>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>4</span>
+                    <strong>Decrypt</strong>
+                    <small>Recover message</small>
+                </div>
+
+            </div>
         </section>
 
-        <section class="process-section">
 
-            <div class="process-card">
-                <div class="step-number">01</div>
-                <h3>AES-256 Key</h3>
-                <p>Randomly generated symmetric key</p>
-                <div class="key-box" id="aesKey">
-                    Waiting for encryption...
+        <!-- Message Section -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2>✉️ Sender</h2>
+                    <p>Enter the message you want to send securely.</p>
                 </div>
+
+                <span class="status ready" id="statusBadge">
+                    Ready
+                </span>
             </div>
 
-            <div class="process-card">
-                <div class="step-number">02</div>
-                <h3>AES Encrypted Message</h3>
-                <p>Original message encrypted with AES-256-GCM</p>
-                <div class="key-box" id="encryptedMessage">
-                    Waiting for encryption...
-                </div>
-            </div>
 
-            <div class="process-card">
-                <div class="step-number">03</div>
-                <h3>RSA Encrypted AES Key</h3>
-                <p>AES key protected using RSA-OAEP</p>
-                <div class="key-box" id="encryptedKey">
-                    Waiting for encryption...
-                </div>
+            <label for="message">
+                Message
+            </label>
+
+            <textarea
+                id="message"
+                rows="5"
+                placeholder="Enter your secret message here..."
+            ></textarea>
+
+
+            <div class="button-group">
+
+                <button
+                    id="encryptBtn"
+                    class="btn primary"
+                >
+                    🔒 Encrypt Message
+                </button>
+
+                <button
+                    id="resetBtn"
+                    class="btn secondary"
+                >
+                    ↻ Reset
+                </button>
+
             </div>
 
         </section>
 
-        <div class="arrow-down">↓</div>
 
+        <!-- Encryption Result -->
+        <section class="card">
+
+            <div class="card-header">
+                <div>
+                    <h2>🔐 Encryption Result</h2>
+                    <p>
+                        The message is encrypted using AES and the AES key
+                        is encrypted using RSA.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="result-grid">
+
+                <!-- AES Key -->
+                <div class="result-box">
+
+                    <div class="result-title">
+                        <span class="icon aes">AES</span>
+
+                        <div>
+                            <h3>AES Key</h3>
+                            <small>Symmetric encryption key</small>
+                        </div>
+                    </div>
+
+                    <textarea
+                        id="aesKey"
+                        readonly
+                        placeholder="AES key will appear here..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- RSA Encrypted Key -->
+                <div class="result-box">
+
+                    <div class="result-title">
+                        <span class="icon rsa">RSA</span>
+
+                        <div>
+                            <h3>RSA Encrypted AES Key</h3>
+                            <small>Securely transmitted key</small>
+                        </div>
+                    </div>
+
+                    <textarea
+                        id="encryptedKey"
+                        readonly
+                        placeholder="RSA encrypted AES key will appear here..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Encrypted Message -->
+                <div class="result-box full">
+
+                    <div class="result-title">
+                        <span class="icon msg">✉</span>
+
+                        <div>
+                            <h3>AES Encrypted Message</h3>
+                            <small>Encrypted message / ciphertext</small>
+                        </div>
+                    </div>
+
+                    <textarea
+                        id="encryptedMessage"
+                        readonly
+                        placeholder="Encrypted message will appear here..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Transmission -->
         <section class="transmission">
-            <div class="transmission-icon">📡</div>
+
+            <div class="transmission-icon">
+                📡
+            </div>
+
             <div>
-                <h2>Secure Transmission</h2>
+                <h3>Secure Transmission</h3>
+
                 <p>
-                    The encrypted message and RSA-protected AES key
-                    are ready for secure transmission.
+                    Only the encrypted message and RSA-encrypted AES key
+                    are transmitted to the recipient.
                 </p>
             </div>
+
+            <div class="transmission-arrow">
+                ↓
+            </div>
+
         </section>
 
-        <div class="arrow-down">↓</div>
 
-        <section class="decryption-section">
+        <!-- Recipient -->
+        <section class="card recipient-card">
 
-            <h2>4. Recipient Decryption</h2>
+            <div class="card-header">
 
-            <div class="decrypt-grid">
+                <div>
+                    <h2>📥 Recipient</h2>
 
-                <div class="decrypt-card">
-                    <div class="decrypt-icon">🔑</div>
-                    <h3>RSA Decryption</h3>
-                    <p>Recipient uses RSA private key</p>
-
-                    <div class="status-box" id="rsaStatus">
-                        Waiting...
-                    </div>
-                </div>
-
-                <div class="decrypt-card">
-                    <div class="decrypt-icon">🔓</div>
-                    <h3>AES Decryption</h3>
-                    <p>Recovered AES key decrypts message</p>
-
-                    <div class="status-box" id="aesStatus">
-                        Waiting...
-                    </div>
+                    <p>
+                        The recipient uses the RSA private key to recover
+                        the AES key and then decrypts the message.
+                    </p>
                 </div>
 
             </div>
 
-            <button id="decryptBtn" class="decrypt-btn" disabled>
+
+            <button
+                id="decryptBtn"
+                class="btn success"
+                disabled
+            >
                 🔓 Decrypt Message
             </button>
 
-            <div class="result-box">
-                <h3>Decrypted Message</h3>
 
-                <div id="decryptedMessage">
-                    Your decrypted message will appear here.
-                </div>
-            </div>
+            <div class="decryption-process">
 
-        </section>
+                <div class="process-step">
 
-        <section class="details">
+                    <div class="step-number">
+                        1
+                    </div>
 
-            <h2>Encryption Details</h2>
+                    <div>
+                        <strong>RSA Decryption</strong>
 
-            <div class="details-grid">
+                        <p>
+                            RSA private key decrypts the encrypted AES key.
+                        </p>
+                    </div>
 
-                <div>
-                    <span>Symmetric Algorithm</span>
-                    <strong>AES-256-GCM</strong>
                 </div>
 
-                <div>
-                    <span>Asymmetric Algorithm</span>
-                    <strong>RSA-OAEP</strong>
-                </div>
 
-                <div>
-                    <span>AES Key Size</span>
-                    <strong>256 bits</strong>
-                </div>
+                <div class="process-step">
 
-                <div>
-                    <span>RSA Key Size</span>
-                    <strong>2048 bits</strong>
-                </div>
+                    <div class="step-number">
+                        2
+                    </div>
 
-                <div>
-                    <span>Authentication</span>
-                    <strong>GCM Authentication Tag</strong>
-                </div>
+                    <div>
+                        <strong>AES Decryption</strong>
 
-                <div>
-                    <span>Key Protection</span>
-                    <strong>RSA Public Key</strong>
+                        <p>
+                            Recovered AES key decrypts the encrypted message.
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
 
+
+            <!-- Decrypted Message -->
+
+            <div class="decrypted-box">
+
+                <div class="decrypted-title">
+                    <span>✓</span>
+
+                    <div>
+                        <h3>Decrypted Message</h3>
+                        <small>Original message recovered</small>
+                    </div>
+                </div>
+
+
+                <div
+                    id="decryptedMessage"
+                    class="decrypted-content"
+                >
+                    Decrypted message will appear here...
+                </div>
+
+            </div>
+
         </section>
 
-        <footer>
-            <p>Secure Messaging Demonstration | AES-256 + RSA-OAEP</p>
-            <p>Educational Project</p>
-        </footer>
 
-    </div>
+        <!-- Technical Information -->
+        <section class="card technical-card">
+
+            <h2>📚 Encryption Details</h2>
+
+            <div class="technical-grid">
+
+                <div class="technical-item">
+                    <strong>AES</strong>
+
+                    <span>
+                        AES-GCM
+                    </span>
+
+                    <p>
+                        Symmetric encryption used to protect the actual
+                        message.
+                    </p>
+                </div>
+
+
+                <div class="technical-item">
+                    <strong>RSA</strong>
+
+                    <span>
+                        RSA-OAEP
+                    </span>
+
+                    <p>
+                        Asymmetric encryption used to securely protect
+                        the AES key.
+                    </p>
+                </div>
+
+
+                <div class="technical-item">
+                    <strong>Key Size</strong>
+
+                    <span>
+                        AES 256-bit + RSA 4096-bit
+                    </span>
+
+                    <p>
+                        AES key is 256-bit (the maximum size supported by the
+                        AES standard). The RSA key pair that wraps it is
+                        4096-bit, generated fresh by the browser on load.
+                    </p>
+                </div>
+
+
+                <div class="technical-item">
+                    <strong>Security</strong>
+
+                    <span>
+                        Web Crypto API
+                    </span>
+
+                    <p>
+                        Cryptographic operations are performed by the browser.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <p>
+            Secure Messaging Web Application
+        </p>
+
+        <p>
+            AES + RSA Hybrid Encryption Demonstration
+        </p>
+
+    </footer>
+
 
     <script src="script.js"></script>
 
